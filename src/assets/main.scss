@@ -1,0 +1,18 @@
+* {
+  margin: 0;
+  box-sizing: border-box;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+button {
+  border: none;
+  outline: none;
+}
+
+.view-container {
+  width: 100%;
+  min-height: 500px;
+  display: flex;
+  align-items: center;
+}

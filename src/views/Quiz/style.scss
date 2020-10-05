@@ -1,0 +1,64 @@
+#quiz_root {
+  margin: auto;
+}
+
+#quiz_container {
+  width: 60vw;
+
+  .header-wrapper {
+    width: 100%;
+    display: none;
+    margin-bottom: 24px;
+
+    &.show {
+      display: flex;
+    }
+
+    .header-span {
+      &#count_span {
+        margin-right: auto;
+      }
+      &#score_span {
+        margin-left: auto;
+      }
+    }
+  }
+
+  .main-wrapper {
+    width: 100%;
+    .main-text {
+      text-align: center;
+    }
+  }
+
+  .input-wrapper {
+    width: 100%;
+    display: none;
+    margin-top: 20px;
+
+    &.show {
+      display: flex;
+    }
+
+    #word_input {
+      margin: auto;
+    }
+  }
+
+  .btn-wrapper {
+    width: 100%;
+    display: flex;
+    margin-top: 20px;
+    #start_btn {
+      margin: auto;
+      width: 50%;
+      font-size: 16px;
+      padding: 12px;
+      border-radius: 4px;
+
+      &:active {
+        opacity: 0.4;
+      }
+    }
+  }
+}
