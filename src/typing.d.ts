@@ -1,8 +1,10 @@
 import { IRootApp } from "./main";
+import Component from "./views/base";
 
 declare global {
   interface Window {
     rootApp: IRootApp;
+    vm: Component;
   }
 }
 

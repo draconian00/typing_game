@@ -5,6 +5,15 @@ import CompleteView from '@/views/Complete';
 export interface IRouteItem {
   path: string;
   constructor: ComponentConstructor;
+  params?: IRouteParams;
+}
+
+export interface IRouteParams {
+  [key: string]: any;
+}
+
+export interface IRouteError {
+  message: string;
 }
 
 export const routes: IRouteItem[] = [
@@ -19,32 +28,35 @@ export const routes: IRouteItem[] = [
 ];
 
 export default class Router {
-  public routeList = routes;
+  public routeList: IRouteItem[] = routes;
 
-  private findTarget(path: string) {
+  private findTarget(path: string): IRouteItem | undefined {
     return this.routeList.find((item) => {
       return item.path === path;
     });
   }
 
-  public push(path: string) {
+  public push(
+    path: string,
+    params?: IRouteParams,
+  ): Promise<IRouteItem | IRouteError> {
     return new Promise((resolve, reject) => {
       const target = this.findTarget(path);
       
       // check route path
       if (!target) {
-        const errObj = {
+        const errObj: IRouteError = {
           message: `can't find route : path - ${path}`,
         };
         reject(errObj);
         return;
       }
 
-      const curHash = window.location.hash.replace('#', '');
+      const curHash: string = window.location.hash.replace('#', '');
 
       // check duplicate path
       if (curHash === path) {
-        const errObj = {
+        const errObj: IRouteError = {
           message: `duplicate route : curHash - ${curHash} | path - ${path}`,
         };
         reject(errObj);
@@ -52,17 +64,19 @@ export default class Router {
       }
 
       // change hash
-      window.location.hash = path;
-      resolve();
+      window.history.pushState({ path, params }, path, `#${path}`);
+      // route
+      window.rootApp.renderComponent(target.constructor, params);
+      resolve(target);
     });
   }
 
-  public back() {
+  public back(): void {
     window.history.back();
   }
 
-  public initRouter() {
-    let preHash = window.location.hash.replace('#', '');
+  public initRouter(): void {
+    let preHash: string = window.location.hash.replace('#', '');
     if (!preHash) {
       preHash = '/';
     }
@@ -74,13 +88,16 @@ export default class Router {
       return;
     }
 
-    window.addEventListener('popstate', () => {
-      const path = window.location.hash.replace('#', '');
+    // on history back
+    window.onpopstate = (event: PopStateEvent) => {
+      const state = event.state;
+      const path = state.path;
+      const params = state.params;
       const target = this.findTarget(path);
-      window.rootApp.renderComponent(target.constructor);
-    });
+      window.rootApp.renderComponent(target.constructor, params);
+    };
 
-    window.location.hash = preHash;
+    window.history.replaceState({ path: preHash }, preHash, `#${preHash}`);
     window.rootApp.renderComponent(target.constructor);
   }
 }

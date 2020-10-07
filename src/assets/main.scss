@@ -1,4 +1,5 @@
 * {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   margin: 0;
   box-sizing: border-box;
   user-select: none;
@@ -15,4 +16,11 @@ button {
   min-height: 500px;
   display: flex;
   align-items: center;
+}
+
+.v-show-target {
+  display: none;
+  &.show {
+    display: block;
+  }
 }

@@ -1,21 +1,40 @@
 <div id="quiz_container">
-  <div class="header-wrapper" data-v-show="startQuiz">
+  <div class="header-wrapper v-show-target"
+    data-v-show="vm.quizStatus === 1">
     <span class="header-span" id="count_span">
       <span>남은 시간 : </span>
-      <span id="count_value"></span>
+      <span id="count_value">
+        <span class="value" data-map="currentLimitSecond"></span>
+        <span class="unit">초</span>
+      </span>
     </span>
     <span class="header-span" id="score_span">
       <span>점수 : </span>
-      <span id="score_value"></span>
+      <span id="score_value">
+        <span class="value" data-map="totalScore"></span>
+        <span class="unit">점</span>
+      </span>
     </span>
   </div>
   <div class="main-wrapper">
-    <h1 class="main-text">Typing Game</h1>
+    <h1 class="main-text">
+      <span class="v-show-target"
+        data-v-show="vm.quizStatus === 0">Typing Game</span>
+      <span class="v-show-target"
+        data-v-show="vm.quizStatus === 1 && vm.words.length > 0"
+        data-map="currentWord.text"></span>
+    </h1>
   </div>
-  <div class="input-wrapper" data-v-show="startQuiz">
-    <input id="word_input" />
+  <div class="input-wrapper v-show-target"
+    data-v-show="vm.quizStatus === 1">
+    <input id="word_input" type="text" />
   </div>
   <div class="btn-wrapper">
-    <button id="start_btn">시작</button>
+    <button id="start_btn" onclick="vm.onClickStartBtn()">
+      <span class="v-show-target"
+        data-v-show="vm.quizStatus === 0">시작</span>
+      <span class="v-show-target"
+        data-v-show="vm.quizStatus === 1">초기화</span>
+    </button>
   </div>
 </div>
