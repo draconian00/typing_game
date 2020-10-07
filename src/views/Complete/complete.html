@@ -1,1 +1,8 @@
-hi
+<div id="complete_container">
+  <h2>Mission Complete!</h2>
+  <h1>당신의 점수는 <span id="total_score" data-map="totalScore"></span>점입니다.</h1>
+  <h4 class="v-show-target" data-v-show="vm.totalScore > 0">단어당 평균 답변 시간은 <span id="avg_time" data-map="avgTime"></span>초입니다.</h4>
+  <div class="btn-wrapper">
+    <button id="restart_btn" onclick="vm.restartQuiz()">다시 시작</button>
+  </div>
+</div>
