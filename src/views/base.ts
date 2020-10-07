@@ -74,7 +74,10 @@ export default class Component implements IComponent {
   }
 
   // mounted
-  protected mounted(): void {}
+  protected mounted(): void {
+    window.vm = this;
+    this.updateComponent();
+  }
 }
 
 export type ComponentConstructor = new (params?: IRouteParams) => Component;

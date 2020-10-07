@@ -42,7 +42,6 @@ export default class CompleteView extends Component {
   }
 
   public mounted() {
-    window.vm = this;
-    this.updateComponent();
+    super.mounted();
   }
 }

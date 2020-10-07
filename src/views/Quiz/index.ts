@@ -183,8 +183,7 @@ export default class QuizView extends Component {
   }
 
   public mounted() {
-    window.vm = this;
-    this.updateComponent();
+    super.mounted();
 
     // set input element
     this.inputEl = this.$componentEl.querySelector('#word_input');
