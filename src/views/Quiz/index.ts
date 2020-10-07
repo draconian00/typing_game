@@ -4,10 +4,11 @@ const template = require('./quiz.html');
 import Component from '@/views/base';
 import xhr, { IXHRError, IXHROption } from '@/API';
 import { wordsUrl, IWords } from '@/API/interface/words';
-import { threadId } from 'worker_threads';
 
 export default class QuizView extends Component {
   // data -----------
+  protected apiFinished: boolean = false;
+
   public words: IWords[] = [];
   protected totalScore: number = 0;
   protected quizStatus: number = 0;
@@ -18,7 +19,6 @@ export default class QuizView extends Component {
   protected currentWord: IWords | undefined = undefined;
   protected currentLimitSecond: number = 0;
   protected wordTimer: NodeJS.Timeout | undefined = undefined;
-
 
   protected successCount: number = 0;
   protected totalTime: number = 0;
@@ -36,7 +36,6 @@ export default class QuizView extends Component {
   protected onClickStartBtn() {
     if (this.quizStatus === 0) {
       // 최초 시작
-      this.quizStatus = 1;
       this.startQuiz();
     } else if (this.quizStatus === 1) {
       // 초기화
@@ -45,6 +44,7 @@ export default class QuizView extends Component {
   }
 
   protected resetQuiz() {
+    this.apiFinished = false;
     this.quizStatus = 0;
     this.words = [];
     this.totalScore = 0;
@@ -66,6 +66,11 @@ export default class QuizView extends Component {
   }
 
   protected startQuiz() {
+    if (!this.apiFinished) {
+      alert('api 완료 대기 중');
+      return;
+    }
+    this.quizStatus = 1;
     this.setQuizWord();
     this.updateComponent();
     this.inputEl.focus();
@@ -164,6 +169,7 @@ export default class QuizView extends Component {
           this.words = res;
           // update total score
           this.totalScore = this.words.length;
+          this.apiFinished = true;
           resolve();
         })
         .catch((xhrError: IXHRError) => {

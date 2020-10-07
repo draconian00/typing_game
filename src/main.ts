@@ -1,10 +1,10 @@
-import '@/assets/main.scss';
+import './assets/main.scss';
 
 import Router, { IRouteItem, IRouteParams } from '@/router';
 import Component, { ComponentConstructor, IComponent } from './views/base';
 // import Store from '@/store';
 
-const rootEl = document.querySelector('#root-app') as HTMLElement;
+// const rootEl = document.querySelector('#root-app') as HTMLElement;
 
 
 export interface IRootApp extends IComponent {
@@ -15,7 +15,21 @@ export interface IRootApp extends IComponent {
   $router?: Router;
 }
 
-class RootApp extends Component implements IRootApp {
+export default class RootApp extends Component implements IRootApp {
+  public $componentEl!: HTMLElement;
+  public $router!: Router;
+  public $child!: Component | undefined;
+
+  constructor(rootHtml: HTMLElement, params?: IRouteParams) {
+    super();
+    this.$componentEl = rootHtml;
+    this.$child = undefined;
+    this.$router = new Router();
+
+    setTimeout(() => {
+      this.mounted();
+    }, 0);
+  }
 
   public renderComponent(
     componentConstructor: ComponentConstructor,
@@ -32,16 +46,17 @@ class RootApp extends Component implements IRootApp {
     newNode.append(component.render());
 
     // render html
-    this.$componentEl.replaceChild(newNode, rootEl.querySelector('.view-container'));
+    this.$componentEl.replaceChild(newNode, this.$componentEl.querySelector('.view-container'));
 
     // call mounted
     this.$child.mounted();
   }
 
-  public $componentEl = rootEl;
-  public $router = new Router;
-  public $child = undefined;
+  public mounted() {
+    super.mounted();
+    this.$router.initRouter(this);
+  }
 }
 
-window.rootApp = new RootApp();
-window.rootApp.$router.initRouter();
+const rootEl = document.querySelector('#root-app') as HTMLElement;
+window.rootApp = new RootApp(rootEl);

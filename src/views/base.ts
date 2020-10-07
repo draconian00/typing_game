@@ -31,7 +31,7 @@ export default class Component implements IComponent {
     });
   }
 
-  private setDataMap(el: Element, key: string) {
+  protected setDataMap(el: Element, key: string) {
     const keyArr = key.split('.');
     let data: any;
     keyArr.forEach((key, index) => {
@@ -63,7 +63,7 @@ export default class Component implements IComponent {
     });
   }
 
-  protected updateComponent() {
+  public updateComponent() {
     this.setTemplateData();
     this.checkVShow();
   }
@@ -74,7 +74,7 @@ export default class Component implements IComponent {
   }
 
   // mounted
-  protected mounted(): void {
+  public mounted(): void {
     window.vm = this;
     this.updateComponent();
   }

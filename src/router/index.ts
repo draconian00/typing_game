@@ -1,6 +1,7 @@
 import { ComponentConstructor } from '@/views/base';
 import QuizView from '@/views/Quiz';
 import CompleteView from '@/views/Complete';
+import { IRootApp } from '@/main';
 
 export interface IRouteItem {
   path: string;
@@ -75,7 +76,15 @@ export default class Router {
     window.history.back();
   }
 
-  public initRouter(): void {
+  private onPopStateEvent(event: PopStateEvent) {
+    const state = event.state;
+    const path = state.path;
+    const params = state.params;
+    const target = this.findTarget(path);
+    window.rootApp.renderComponent(target.constructor, params);
+  }
+
+  public initRouter(app: IRootApp): void {
     let preHash: string = window.location.hash.replace('#', '');
     if (!preHash) {
       preHash = '/';
@@ -89,15 +98,9 @@ export default class Router {
     }
 
     // on history back
-    window.onpopstate = (event: PopStateEvent) => {
-      const state = event.state;
-      const path = state.path;
-      const params = state.params;
-      const target = this.findTarget(path);
-      window.rootApp.renderComponent(target.constructor, params);
-    };
+    window.onpopstate = (this.onPopStateEvent).bind(this);
 
     window.history.replaceState({ path: preHash }, preHash, `#${preHash}`);
-    window.rootApp.renderComponent(target.constructor);
+    app.renderComponent(target.constructor);
   }
 }
