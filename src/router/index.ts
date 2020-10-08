@@ -1,7 +1,7 @@
 import { ComponentConstructor } from '@/views/base';
 import QuizView from '@/views/Quiz';
 import CompleteView from '@/views/Complete';
-import { IRootApp } from '@/main';
+import RootApp from '@/main';
 
 export interface IRouteItem {
   path: string;
@@ -30,6 +30,7 @@ export const routes: IRouteItem[] = [
 
 export default class Router {
   public routeList: IRouteItem[] = routes;
+  private rootApp!: RootApp;
 
   private findTarget(path: string): IRouteItem | undefined {
     return this.routeList.find((item) => {
@@ -67,7 +68,7 @@ export default class Router {
       // change hash
       window.history.pushState({ path, params }, path, `#${path}`);
       // route
-      window.rootApp.renderComponent(target.constructor, params);
+      this.renderComponent(target.constructor, params);
       resolve(target);
     });
   }
@@ -81,10 +82,11 @@ export default class Router {
     const path = state.path;
     const params = state.params;
     const target = this.findTarget(path);
-    window.rootApp.renderComponent(target.constructor, params);
+    this.renderComponent(target.constructor, params);
   }
 
-  public initRouter(app: IRootApp): void {
+  public initRouter(rootApp: RootApp): void {
+    this.rootApp = rootApp;
     let preHash: string = window.location.hash.replace('#', '');
     if (!preHash) {
       preHash = '/';
@@ -101,6 +103,24 @@ export default class Router {
     window.onpopstate = (this.onPopStateEvent).bind(this);
 
     window.history.replaceState({ path: preHash }, preHash, `#${preHash}`);
-    app.renderComponent(target.constructor);
+    this.renderComponent(target.constructor);
+  }
+
+  private renderComponent(targetComponent: ComponentConstructor, params?: IRouteParams) {
+    // create component
+    const component = new targetComponent(params);
+    this.rootApp.$child = component;
+    this.rootApp.$child.$root = this.rootApp;
+    this.rootApp.$child.$parent = this.rootApp;
+
+    const newNode = document.createElement('div');
+    newNode.classList.add('view-container');
+    newNode.append(component.render());
+
+    if (this.rootApp.$componentEl) {
+      this.rootApp.$componentEl.replaceChild(newNode, this.rootApp.$componentEl.querySelector('.view-container'));
+  
+      this.rootApp.$child.mounted();
+    }
   }
 }

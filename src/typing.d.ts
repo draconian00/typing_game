@@ -1,9 +1,8 @@
-import { IRootApp } from "./main";
-import Component from "./views/base";
+import Component from './views/base';
 
 declare global {
   interface Window {
-    rootApp: IRootApp;
+    rootApp: Component;
     vm: Component;
   }
 }

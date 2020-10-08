@@ -1,7 +1,8 @@
 import RootApp from '@/main';
 import Router from '@/router';
-import CompleteView from '@/views/Complete';
-import QuizView from '@/views/Quiz';
+import Component from '@/views/base';
+
+jest.useFakeTimers();
 
 describe('RootApp Class', () => {
   let instance: RootApp;
@@ -16,20 +17,6 @@ describe('RootApp Class', () => {
     expect(instance.$componentEl).toBe(rootEl);
     expect(instance.$router).toBeDefined();
     expect(instance.$router).toBeInstanceOf(Router);
-    expect(instance.$child).not.toBeDefined();
-
-    // call mounted
-    setTimeout(() => {
-      const routerInitSpy = jest.spyOn(instance.$router, 'initRouter');
-      expect(routerInitSpy).toHaveBeenCalledTimes(1);
-      // check mounted called
-      const mountedSpy = jest.spyOn(instance, 'mounted');
-      expect(mountedSpy).toHaveBeenCalledTimes(1);
-      // check reanderComponent called
-      const renderComponentSpy = jest.spyOn(instance, 'renderComponent');
-      expect(renderComponentSpy).toHaveBeenCalled();
-      // check $child component
-      expect(instance.$child).toBeDefined();
-    }, 0);
+    expect(instance.$child).toBeInstanceOf(Component);
   });
 });
