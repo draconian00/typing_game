@@ -1,5 +1,8 @@
 # Typing Game
 
+Node v12.19.0  
+NPM v6.14.8
+
 - ## API 모듈
 
   window.XMLHttpRequest를 사용하여 서버와 통신하고 성공/실패 결과를 Promise 객체로 전달할 수 있도록 구성하였습니다.
