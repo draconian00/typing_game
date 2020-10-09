@@ -5,10 +5,10 @@ import Component from '@/views/base';
 import { IRouteParams } from '@/router';
 
 export default class CompleteView extends Component {
-  public avgTime: number = 0;
-  public totalScore: number = 0;
-  public totalTime: number = 0;
-  public successCount: number = 0;
+  public avgTime!: number;
+  public totalScore!: number;
+  public totalTime!: number;
+  public successCount!: number;
 
   public restartQuiz() {
     this.$root.$router.back();

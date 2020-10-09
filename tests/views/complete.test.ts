@@ -1,5 +1,4 @@
 import CompleteView from '@/views/Complete';
-import RootApp from '@/main';
 
 describe('complete view', () => {
   let instance: CompleteView;
@@ -9,9 +8,16 @@ describe('complete view', () => {
   });
 
   it('pass params', () => {
-    instance = new CompleteView({ avgTime: 3, totalScore: 12 });
+    instance = new CompleteView({
+      avgTime: 3,
+      totalScore: 12,
+      totalTime: 36,
+      successCount: 12,
+    });
     expect(instance.avgTime).toBe(3);
     expect(instance.totalScore).toBe(12);
+    expect(instance.totalTime).toBe(36);
+    expect(instance.successCount).toBe(12);
   });
 
   it('check render result', () => {

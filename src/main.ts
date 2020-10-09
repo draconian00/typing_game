@@ -13,7 +13,6 @@ export default class RootApp extends Component {
     this.$componentEl = rootHtml;
     this.$child = undefined;
     this.$router = new Router();
-
     this.$router.initRouter(this);
   }
 }

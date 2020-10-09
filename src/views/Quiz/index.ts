@@ -7,33 +7,33 @@ import { wordsUrl, IWords } from '@/API/interface/words';
 
 export default class QuizView extends Component {
   // data -----------
-  protected apiFinished: boolean = false;
+  public apiFinished: boolean = false;
 
   public words: IWords[] = [];
-  protected totalScore: number = 0;
-  protected quizStatus: number = 0;
+  public totalScore: number = 0;
+  public quizStatus: number = 0;
 
-  protected inputEl: HTMLInputElement | undefined = undefined;
+  public inputEl: HTMLInputElement | undefined = undefined;
 
-  protected currentWordIndex: number = 0;
-  protected currentWord: IWords | undefined = undefined;
-  protected currentLimitSecond: number = 0;
-  protected wordTimer: NodeJS.Timeout | undefined = undefined;
+  public currentWordIndex: number = 0;
+  public currentWord: IWords | undefined = undefined;
+  public currentLimitSecond: number = 0;
+  public wordTimer: NodeJS.Timeout | undefined = undefined;
 
-  protected successCount: number = 0;
-  protected totalTime: number = 0;
+  public successCount: number = 0;
+  public totalTime: number = 0;
 
   // data -----------
 
   // methods --------------
-  protected getInitialLimitSecond() {
+  public getInitialLimitSecond() {
     if (this.currentWord) {
       this.currentLimitSecond = this.currentWord.second;
     }
     return 0;
   }
 
-  protected onClickStartBtn() {
+  public onClickStartBtn() {
     if (this.quizStatus === 0) {
       // 최초 시작
       this.startQuiz();
@@ -43,7 +43,7 @@ export default class QuizView extends Component {
     }
   }
 
-  protected resetQuiz() {
+  public resetQuiz() {
     this.apiFinished = false;
     this.quizStatus = 0;
     this.words = [];
@@ -59,13 +59,15 @@ export default class QuizView extends Component {
     this.clearTimer();
 
     // reset input el
-    this.inputEl.value = '';
+    if (this.inputEl) {
+      this.inputEl.value = '';
+    }
     // reset api
     this.getWords();
     this.updateComponent();
   }
 
-  protected startQuiz() {
+  public startQuiz() {
     if (!this.apiFinished) {
       alert('api 완료 대기 중');
       return;
@@ -73,10 +75,12 @@ export default class QuizView extends Component {
     this.quizStatus = 1;
     this.setQuizWord();
     this.updateComponent();
-    this.inputEl.focus();
+    if (this.inputEl) {
+      this.inputEl.focus();
+    }
   }
 
-  protected nextWord() {
+  public nextWord() {
     if (this.currentWordIndex < this.words.length) {
       this.currentWordIndex++;
     }
@@ -101,11 +105,13 @@ export default class QuizView extends Component {
       return;
     }
 
-    this.inputEl.value = '';
+    if (this.inputEl) {
+      this.inputEl.value = '';
+    }
     this.setQuizWord();
   }
 
-  protected setQuizWord() {
+  public setQuizWord() {
     this.currentWord = this.words[this.currentWordIndex];
     this.currentLimitSecond = this.currentWord.second;
     this.updateComponent();
@@ -126,13 +132,13 @@ export default class QuizView extends Component {
     }, 1000);
   }
 
-  protected clearTimer() {
+  public clearTimer() {
     if (this.wordTimer) {
       clearInterval(this.wordTimer);
     }
   }
 
-  protected onInputKeyup(e: KeyboardEvent) {
+  public onInputKeyup(e: KeyboardEvent) {
     // check enter
     if (e.key === 'Enter') {
       const input = e.target as HTMLInputElement;
@@ -157,7 +163,7 @@ export default class QuizView extends Component {
   // methods --------------
 
   // api
-  protected getWords() {
+  public getWords() {
     return new Promise((resolve, reject) => {
       const url = wordsUrl;
       const option: IXHROption = {
@@ -201,6 +207,8 @@ export default class QuizView extends Component {
       });
 
     // set on input
-    this.inputEl.addEventListener('keyup', (this.onInputKeyup).bind(this));
+    if (this.inputEl) {
+      this.inputEl.addEventListener('keyup', (this.onInputKeyup).bind(this));
+    }
   }
 }
