@@ -23,7 +23,7 @@ export default class CompleteView extends Component {
     this.$componentEl.innerHTML = template;
 
     if (params) {
-      const { avgTime, totalScore, totalTime, successCount } = params;
+      const { avgTime, totalScore, totalTime } = params;
 
       if (avgTime && typeof avgTime === 'number') {
         this.avgTime = avgTime;
@@ -33,9 +33,6 @@ export default class CompleteView extends Component {
       }
       if (totalTime && typeof totalTime === 'number') {
         this.totalTime = totalTime;
-      }
-      if (successCount && typeof successCount === 'number') {
-        this.successCount = successCount;
       }
     }
     

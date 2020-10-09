@@ -20,7 +20,6 @@ export default class QuizView extends Component {
   public currentLimitSecond: number = 0;
   public wordTimer: NodeJS.Timeout | undefined = undefined;
 
-  public successCount: number = 0;
   public totalTime: number = 0;
 
   // data -----------
@@ -53,7 +52,6 @@ export default class QuizView extends Component {
     this.currentLimitSecond = 0;
 
     this.totalTime = 0;
-    this.successCount = 0;
 
     // clear timer
     this.clearTimer();
@@ -88,10 +86,10 @@ export default class QuizView extends Component {
     if (this.currentWordIndex === this.words.length) {
       this.clearTimer();
       // 문제 해결 시간 / 맞춘 단어 수 => complete view 로 route params 넘기기
-      const { totalScore, totalTime, successCount } = this;
+      const { totalScore, totalTime } = this;
       let avgTime = 0
-      if (successCount > 0) {
-        avgTime = Math.round(totalTime / successCount);
+      if (totalScore > 0) {
+        avgTime = Math.round(totalTime / totalScore);
       }
       this.$root.$router.push(
         '/complete',
@@ -99,7 +97,6 @@ export default class QuizView extends Component {
           avgTime,
           totalScore,
           totalTime,
-          successCount,
         },
       );
       return;
@@ -151,8 +148,6 @@ export default class QuizView extends Component {
 
         // 최초 제한 시간 - 남은 시간 => 총 시간에 더하기
         this.totalTime += (this.currentWord.second - this.currentLimitSecond);
-        // 맞춘 단어 숫자++
-        this.successCount++;
 
         this.nextWord();
       } else {

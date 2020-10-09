@@ -82,10 +82,10 @@ describe('quiz view test suite', () => {
     expect(clearTimerSpy).toBeCalled();
     expect(setQuizWordSpy).not.toBeCalled();
 
-    const { totalScore, totalTime, successCount } = instance;
+    const { totalScore, totalTime } = instance;
     let avgTime = 0
-    if (successCount > 0) {
-      avgTime = Math.round(totalTime / successCount);
+    if (totalScore > 0) {
+      avgTime = Math.round(totalTime / totalScore);
     }
 
     expect(rootRouterPushSpy).toBeCalledWith(
@@ -94,7 +94,6 @@ describe('quiz view test suite', () => {
         avgTime,
         totalScore,
         totalTime,
-        successCount,
       },
     );
   });

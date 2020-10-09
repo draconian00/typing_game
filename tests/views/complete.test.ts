@@ -12,12 +12,10 @@ describe('complete view', () => {
       avgTime: 3,
       totalScore: 12,
       totalTime: 36,
-      successCount: 12,
     });
     expect(instance.avgTime).toBe(3);
     expect(instance.totalScore).toBe(12);
     expect(instance.totalTime).toBe(36);
-    expect(instance.successCount).toBe(12);
   });
 
   it('check render result', () => {
