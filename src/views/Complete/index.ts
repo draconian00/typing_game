@@ -6,7 +6,7 @@ import { IRouteParams } from '@/router';
 
 export default class CompleteView extends Component {
   public avgTime!: number;
-  public totalScore!: number;
+  public totalScore: number = 0;
   public totalTime!: number;
   public successCount!: number;
 
@@ -25,13 +25,13 @@ export default class CompleteView extends Component {
     if (params) {
       const { avgTime, totalScore, totalTime } = params;
 
-      if (avgTime && typeof avgTime === 'number') {
+      if (avgTime !== undefined && typeof avgTime === 'number') {
         this.avgTime = avgTime;
       }
-      if (totalScore && typeof totalScore === 'number') {
+      if (totalScore !== undefined && typeof totalScore === 'number') {
         this.totalScore = totalScore;
       }
-      if (totalTime && typeof totalTime === 'number') {
+      if (totalTime !== undefined && typeof totalTime === 'number') {
         this.totalTime = totalTime;
       }
     }

@@ -54,7 +54,7 @@ describe('quiz view test suite', () => {
     instance.startQuiz();
     expect(setQuizWordSpy).toBeCalledTimes(1);
     expect(instance.currentWord).toEqual(words[0]);
-    expect(instance .currentLimitSecond).toEqual(words[0].second);
+    expect(instance.currentLimitSecond).toEqual(words[0].second);
     expect(clearTimerSpy).toBeCalledTimes(1);
     expect(instance.wordTimer).toBeDefined();
   });

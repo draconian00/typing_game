@@ -13,7 +13,7 @@ export default class QuizView extends Component {
   public totalScore: number = 0;
   public quizStatus: number = 0;
 
-  public inputEl: HTMLInputElement | undefined = undefined;
+  protected inputEl: HTMLInputElement | undefined = undefined;
 
   public currentWordIndex: number = 0;
   public currentWord: IWords | undefined = undefined;
@@ -25,7 +25,7 @@ export default class QuizView extends Component {
   // data -----------
 
   // methods --------------
-  public getInitialLimitSecond() {
+  protected getInitialLimitSecond() {
     if (this.currentWord) {
       this.currentLimitSecond = this.currentWord.second;
     }
@@ -135,7 +135,7 @@ export default class QuizView extends Component {
     }
   }
 
-  public onInputKeyup(e: KeyboardEvent) {
+  protected onInputKeyup(e: KeyboardEvent) {
     // check enter
     if (e.key === 'Enter') {
       const input = e.target as HTMLInputElement;
@@ -158,7 +158,7 @@ export default class QuizView extends Component {
   // methods --------------
 
   // api
-  public getWords() {
+  protected getWords() {
     return new Promise((resolve, reject) => {
       const url = wordsUrl;
       const option: IXHROption = {
